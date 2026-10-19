@@ -4,7 +4,7 @@ An animated exploration of random motion on a two-dimensional grid, built with P
 
 ## Preview
 
-![2D random walk animation](Gifs/random_walk_1000_steps.gif)
+![2D random walk animation](Gifs/random_walk.gif)
 
 <!-- Replace the GIF filename above with your actual filename in Gifs. Paths are case-sensitive. -->
 
@@ -30,7 +30,7 @@ The dashboard contains eight plots:
 Install the dependencies:
 
 ```bash
-python -m pip install numpy matplotlib pillow
+python -m pip install numpy matplotlib
 ```
 
 Run the simulation from the repository directory:
@@ -39,7 +39,7 @@ Run the simulation from the repository directory:
 python 2D_Random_Walk.py
 ```
 
-Python's `random` module is part of the standard library. Pillow is used for GIF export.
+Python's `random` module is part of the standard library.
 
 ## Customize the simulation
 
@@ -52,46 +52,6 @@ n = 1000
 Rerun the script to generate a new walk. Unless a random seed is set, each run produces a different path.
 
 The animation's `interval` controls the delay between displayed frames in milliseconds. For example, `interval=100` targets 10 frames per second during playback.
-
-## Export a GIF
-
-After defining `init()` and `update()` and setting up the plots, add the following before `plt.show()`:
-
-```python
-from pathlib import Path
-
-Path("Gifs").mkdir(exist_ok=True)
-
-fps = 10
-duration = 20
-frame_count = min(len(Xs), fps * duration)
-
-gif_frames = np.linspace(
-    0, len(Xs) - 1,
-    num=frame_count,
-    dtype=int
-)
-
-gif_ani = animation.FuncAnimation(
-    fig,
-    update,
-    frames=gif_frames,
-    init_func=init,
-    interval=1000 / fps,
-    blit=True,
-    repeat=False
-)
-
-gif_ani.save(
-    f"Gifs/random_walk_{n}_steps.gif",
-    writer=animation.PillowWriter(fps=fps),
-    dpi=70
-)
-```
-
-For longer walks, this samples about 200 frames to target a 20-second GIF. The displayed path and cumulative statistics still include all steps up to each sampled frame. Shorter walks use fewer frames, and the final position is included.
-
-Update the preview link at the top of this README to match the exported filename.
 
 ## The mathematics
 
@@ -122,4 +82,3 @@ At step zero, the plotted revisit percentage is set to zero by convention.
 - **Python** — simulation logic
 - **NumPy** — numerical calculations
 - **Matplotlib** — plots and animation
-- **Pillow** — GIF export
